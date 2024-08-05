@@ -29,7 +29,14 @@ submit_clear_buttons = dbc.Row(
 
 keyword_input = dbc.Col(
     [
-        html.Div([html.H5("Upload a document (PDF, DOCX, etc.)")], className="mb-4"),
+        html.Div(
+            [
+                html.H5(
+                    "Upload a document (PDF, Word document, Excel spreadsheet, etc.)"
+                )
+            ],
+            className="mb-4",
+        ),
         dcc.Upload(
             id="upload-document",
             children=html.Div(["Drag and Drop or ", html.A("Select a file")]),
@@ -41,14 +48,16 @@ keyword_input = dbc.Col(
                 "borderStyle": "dashed",
                 "borderRadius": "5px",
                 "textAlign": "center",
-                "margin": "10px",
             },
-            # Allow multiple files to be uploaded
-            multiple=True,
         ),
-        html.Span(id="uploaded-filename"),
-        html.Span(" has been successfully uploaded!"),
-        html.Br(),
+        html.Br(id="break-1", style={"display": "none"}),
+        html.Span(id="uploaded-filename", style={"display": "none"}),
+        html.Span(
+            id="uploaded-successfully",
+            children=" has been successfully uploaded!",
+            style={"display": "none"},
+        ),
+        html.Br(id="break-2", style={"display": "none"}),
         html.Br(),
         dbc.Label(
             "Select an source language",

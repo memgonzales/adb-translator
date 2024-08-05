@@ -4,7 +4,14 @@ from dash import dcc, html
 from callbacks.constants import Constants
 
 results = dbc.Row(
-    [html.Span("Download the results here: "), html.Span(id="results-link")]
+    [
+        html.Span(
+            "Download the translated documents: ",
+            id="download-intro",
+            style={"display": "none"},
+        ),
+        html.Span(id="results-link"),
+    ]
 )
 
 

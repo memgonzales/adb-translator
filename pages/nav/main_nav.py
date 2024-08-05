@@ -11,7 +11,7 @@ def navbar():
                 [
                     dbc.Col(
                         html.Img(
-                            src="assets/images/graph.png",
+                            src="assets/images/translator.png",
                             height="30px",
                             className="mx-auto",
                         ),
