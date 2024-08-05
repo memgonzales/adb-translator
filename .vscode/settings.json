@@ -1,0 +1,22 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+    },
+    "isort.args":["--profile", "black"],
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "saveAndRunExt": {
+        "commands": [
+            {
+                "match": ".*\\.py",
+                "isShellCommand": true,
+                "cmd": "autoflake -i --remove-all-unused-imports --remove-unused-variables ${file}"
+            }
+        ]
+    }
+}

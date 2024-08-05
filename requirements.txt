@@ -1,0 +1,2 @@
+azure-storage-blob==12.21.0
+azure-ai-translation-document==1.0.0
