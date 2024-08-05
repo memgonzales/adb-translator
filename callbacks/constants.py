@@ -6,6 +6,6 @@ class Constants(object):
         "English": "en",
         "Tagalog": "fil",
         "Chinese": "zh",
-        "Khmer": "kh",
-        "Vietnamese": "vn",
+        "Khmer": "km",
+        "Vietnamese": "vi",
     }
