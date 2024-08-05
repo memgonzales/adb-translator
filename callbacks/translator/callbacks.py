@@ -1,13 +1,7 @@
 from dash import Input, Output, State, html
 from dash.exceptions import PreventUpdate
 
-from ..constants import Constants
-from ..translator.util import (
-    append_timestamp_to_filename,
-    get_link_to_file,
-    save_file,
-    translate,
-)
+from ..translator.util import append_timestamp_to_filename, get_link_to_file, save_file
 
 
 def init_callback(app):
@@ -53,8 +47,18 @@ def init_callback(app):
         translate_submit_clicks, filename, source_language, target_languages
     ):
         if translate_submit_clicks > 0:
-            return translate(
-                filename, source_language, Constants.LANGUAGES[target_languages[0]]
-            )
+            if not filename:
+                return html.H5("Error: Kindly upload a document to be translated")
+
+            if not source_language:
+                source_language = "Detect automatically"
+
+            if not target_languages:
+                return html.H5("Error: Kindly specify a source language")
+
+            # return translate(
+            #     filename, source_language, Constants.LANGUAGES[target_languages[0]]
+            # )
+            return "hello"
 
         raise PreventUpdate
