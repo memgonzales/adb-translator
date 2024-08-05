@@ -23,9 +23,18 @@ app = dash.Dash(
     ],  # Same desktop and mobile views
 )
 
+disclaimer = dbc.Row(
+    dbc.Col(
+        "This app runs on limited computational resources. Please do not upload long or confidential documents. For demo purposes only.",
+        className="p-1 text-center",
+        id="demo-banner",
+        style={"borderBottom": "1px solid white"},
+    )
+)
 
 app.layout = lambda: dbc.Container(
     [
+        disclaimer,
         dbc.Row(main_nav.navbar()),
         dash.page_container,
     ],

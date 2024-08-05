@@ -6,9 +6,11 @@
     width: 100%;
 }
 
-#translate-submit {
+#translate-submit,
+#demo-banner {
     background-color: var(--blue-top);
     border-color: var(--blue-top);
+    color: white;
 }
 
 #keyword-reset,

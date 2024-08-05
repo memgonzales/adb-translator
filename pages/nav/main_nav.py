@@ -21,7 +21,7 @@ def navbar():
                 ],
                 align="center",
                 className="g-0",
-            )
+            ),
         ],
         brand_href="/",
         color="#002069",
