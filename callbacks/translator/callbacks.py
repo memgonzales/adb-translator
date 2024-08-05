@@ -60,7 +60,7 @@ def init_callback(app):
                 source_language = "Detect automatically"
 
             if not target_languages:
-                return html.H5("Error: Kindly specify a source language")
+                return html.H5("Error: Kindly specify at least one target language")
 
             translated_documents = []
 
@@ -83,7 +83,7 @@ def init_callback(app):
                 html_translated_documents.append(item)
 
             return [
-                html.H5("Translated documents:"),
+                html.H5("Translated document(s):"),
                 html.Ul(html_translated_documents, className="mt-3"),
             ]
 
