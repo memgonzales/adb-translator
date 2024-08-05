@@ -52,6 +52,7 @@ keyword_input = dbc.Col(
         ),
         html.Br(id="break-1", style={"display": "none"}),
         html.Span(id="uploaded-filename", style={"display": "none"}),
+        html.Span(id="true-uploaded-filename", style={"display": "none"}),
         html.Span(
             id="uploaded-successfully",
             children=" has been successfully uploaded!",

@@ -2,24 +2,35 @@ from dash import Input, Output, State
 from dash.exceptions import PreventUpdate
 
 from ..constants import Constants
-from ..translator.util import save_file, translate
+from ..translator.util import hash_filename_with_timestamp, save_file, translate
 
 
 def init_callback(app):
     @app.callback(
         Output("uploaded-filename", "children"),
+        Output("true-uploaded-filename", "children"),
+        Output("break-1", "style"),
+        Output("uploaded-filename", "style"),
+        # Output("true-uploaded-filename", "style"),
+        Output("uploaded-successfully", "style"),
+        Output("break-2", "style"),
         Input("upload-document", "filename"),
         Input("upload-document", "contents"),
     )
-    def upload_file(filenames, contents):
-        filename = ""
-        if filenames and contents is not None:
-            for name, data in zip(filenames, contents):
-                filename = name
-                save_file(name, data)
-                break
+    def upload_file(filename, contents):
+        if filename and contents:
+            save_file(filename, contents)
+            return (
+                filename,
+                hash_filename_with_timestamp(filename),
+                {"display": "block"},
+                {"display": "inline-block"},
+                # {"display": "inline-block"},
+                {"display": "inline-block"},
+                {"display": "block"},
+            )
 
-        return filename
+        raise PreventUpdate
 
     @app.callback(
         Output("results-link", "children"),

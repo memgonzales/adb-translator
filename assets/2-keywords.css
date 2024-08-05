@@ -20,3 +20,7 @@
 #keyword-clear-cache:hover {
     background-color: var(--button-red);
 }
+
+#upload-document:hover {
+    cursor: pointer;
+}

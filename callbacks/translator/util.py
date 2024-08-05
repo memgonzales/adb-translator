@@ -1,6 +1,8 @@
 import base64
 import datetime
+import hashlib
 import os
+import time
 
 from azure.ai.translation.document import DocumentTranslationClient
 from azure.core.credentials import AzureKeyCredential
@@ -56,6 +58,16 @@ blob_service_client = BlobServiceClient(
     config["AZURE_STORAGE_ACCOUNT_ENDPOINT"],
     credential=config["AZURE_STORAGE_ACCOUNT_KEY"],
 )
+
+
+def append_timestamp_to_filename(filename):
+    return f"{filename}.{time.time_ns() // 1000}"
+
+
+def hash_filename_with_timestamp(filename):
+    return hashlib.sha256(
+        append_timestamp_to_filename(filename).encode("utf-8")
+    ).hexdigest()
 
 
 def save_file(name, content):
