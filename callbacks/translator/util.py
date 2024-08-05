@@ -1,6 +1,5 @@
 import base64
 import datetime
-import hashlib
 import os
 import random
 import string
@@ -42,8 +41,7 @@ blob_service_client = BlobServiceClient(
 
 def generate_random_container_name():
     return "".join(
-        random.choice(string.ascii_lowercase + string.digits)
-        for _ in range(20)
+        random.choice(string.ascii_lowercase + string.digits) for _ in range(20)
     )
 
 
@@ -71,10 +69,6 @@ def remove_file_extension(filename):
 
 def append_timestamp_to_filename(filename):
     return f"{remove_file_extension(filename)}-{time.time_ns() // 1000}.{get_file_extension(filename)}"
-
-
-def hash_filename_with_timestamp(filename):
-    return f"{hashlib.sha256(append_timestamp_to_filename(filename).encode("utf-8")).hexdigest()}.{get_file_extension(filename)}"
 
 
 def save_file(name, content):
