@@ -7,9 +7,6 @@ RUN set -ex
 
 RUN apt-get update \
     && apt-get install -y \
-    bedtools \
-    cron \
-    git \
     python3-dev \
     python3-pip \
     && apt-get clean
