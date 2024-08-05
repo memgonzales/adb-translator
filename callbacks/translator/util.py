@@ -2,6 +2,8 @@ import base64
 import datetime
 import hashlib
 import os
+import random
+import string
 import time
 
 from azure.ai.translation.document import DocumentTranslationClient
@@ -26,28 +28,6 @@ blob_service_client = BlobServiceClient(
     credential=config["AZURE_STORAGE_ACCOUNT_KEY"],
 )
 
-
-# Create containers
-def create_container(blob_service_client, container_name):
-    try:
-        container_client = blob_service_client.create_container(container_name)
-    except ResourceExistsError:
-        container_client = blob_service_client.get_container_client(
-            container=container_name
-        )
-    return container_client
-
-
-source_container = create_container(
-    blob_service_client,
-    "translation-source-container",
-)
-
-target_container = create_container(
-    blob_service_client,
-    "translation-target-container",
-)
-
 # Initialize clients
 translation_client = DocumentTranslationClient(
     config["AZURE_DOCUMENT_TRANSLATION_ENDPOINT"],
@@ -60,11 +40,34 @@ blob_service_client = BlobServiceClient(
 )
 
 
+def generate_random_container_name():
+    return "".join(
+        random.choice(string.ascii_lowercase + string.digits)
+        for _ in range(20)
+    )
+
+
+# Create containers
+def create_container(blob_service_client):
+    while True:
+        try:
+            container_name = generate_random_container_name()
+            container_client = blob_service_client.create_container(container_name)
+            break
+
+        except ResourceExistsError:
+            pass
+
+    return container_client
+
+
 def get_file_extension(filename):
     return filename.split(".")[-1]
 
+
 def remove_file_extension(filename):
-    return '.'.join(filename.split(".")[:-1])
+    return ".".join(filename.split(".")[:-1])
+
 
 def append_timestamp_to_filename(filename):
     return f"{remove_file_extension(filename)}-{time.time_ns() // 1000}.{get_file_extension(filename)}"
@@ -84,11 +87,19 @@ def save_file(name, content):
         f.write(base64.decodebytes(data))
 
 
-def upload_document_to_container(filename):
-    blob_names = [blob.name for blob in source_container.list_blobs()]
-    if filename not in blob_names:
-        with open(filename, "rb") as f:
-            source_container.upload_blob(filename, f)
+def construct_filename_with_language(filename, target_language):
+    if filename.startswith(Constants.DOCS_DIR):
+        # Add 1 to also remove the slash
+        filename = filename[len(Constants.DOCS_DIR) + 1 :]
+
+    return f"{remove_file_extension(filename)}-{target_language}.{get_file_extension(filename)}"
+
+
+def upload_document_to_container(filename, source_container, target_language):
+    with open(filename, "rb") as f:
+        source_container.upload_blob(
+            construct_filename_with_language(filename, target_language), f
+        )
 
 
 def generate_sas_url(container, permissions):
@@ -111,33 +122,56 @@ def generate_sas_url(container, permissions):
 
 
 def translate(filename, source_language, target_language):
-    upload_document_to_container(filename)
+    filename = f"{Constants.DOCS_DIR}/{filename}"
 
-    source_container_sas_url = generate_sas_url(source_container, permissions="rl")
-    target_container_sas_url = generate_sas_url(target_container, permissions="wl")
+    # Perform translation only if translated document does not exist
+    path_to_translated_document = f"{Constants.DOCS_DIR}/{construct_filename_with_language(filename, target_language)}"
 
-    poller = translation_client.begin_translation(
-        source_container_sas_url, target_container_sas_url, target_language
-    )
+    if not os.path.exists(path_to_translated_document):
+        source_container = create_container(
+            blob_service_client,
+        )
 
-    result = poller.result()
-    print(f"Status: {poller.status()}")
+        target_container = create_container(
+            blob_service_client,
+        )
 
-    for document in result:
-        if document.status == "Succeeded":
-            blob_client = BlobClient.from_blob_url(
-                document.translated_document_url,
-                credential=config["AZURE_STORAGE_ACCOUNT_KEY"],
-            )
-            with open(
-                f"{Constants.DOCS_DIR}/{filename}_{target_language}", "wb"
-            ) as f:
-                f.write(blob_client.download_blob().readall())
+        try:
+            upload_document_to_container(filename, source_container, target_language)
+        except ResourceExistsError:
+            pass
 
-            print("Done!")
-            break
+        source_container_sas_url = generate_sas_url(source_container, permissions="rl")
+        target_container_sas_url = generate_sas_url(target_container, permissions="wl")
 
-    return f"{Constants.DOCS_DIR}/{filename}_{target_language}"
+        if source_language == "Detect automatically":
+            source_language = None
+
+        poller = translation_client.begin_translation(
+            source_container_sas_url,
+            target_container_sas_url,
+            target_language=target_language,
+            source_language=source_language,
+        )
+
+        for document in poller.result():
+            if document.status == "Succeeded":
+                blob_client = BlobClient.from_blob_url(
+                    document.translated_document_url,
+                    credential=config["AZURE_STORAGE_ACCOUNT_KEY"],
+                )
+
+                with open(path_to_translated_document, "wb") as f:
+                    f.write(blob_client.download_blob().readall())
+
+                break
+
+        # Clean up
+        source_container.delete_container()
+        target_container.delete_container()
+
+    return construct_filename_with_language(filename, target_language)
+
 
 def get_link_to_file(filename):
     return f"/download/{filename}"

@@ -1,7 +1,13 @@
 from dash import Input, Output, State, html
 from dash.exceptions import PreventUpdate
 
-from ..translator.util import append_timestamp_to_filename, get_link_to_file, save_file
+from ..constants import Constants
+from ..translator.util import (
+    append_timestamp_to_filename,
+    get_link_to_file,
+    save_file,
+    translate,
+)
 
 
 def init_callback(app):
@@ -39,7 +45,7 @@ def init_callback(app):
     @app.callback(
         Output("results-link", "children"),
         Input("translate-submit", "n_clicks"),
-        State("uploaded-filename", "children"),
+        State("true-uploaded-filename", "children"),
         State("source-language", "value"),
         State("target-language", "value"),
     )
@@ -56,9 +62,15 @@ def init_callback(app):
             if not target_languages:
                 return html.H5("Error: Kindly specify a source language")
 
-            # return translate(
-            #     filename, source_language, Constants.LANGUAGES[target_languages[0]]
-            # )
+            translated_documents = []
+
+            for target_language in target_languages:
+                translated_documents.append(
+                    translate(
+                        filename, source_language, Constants.LANGUAGES[target_language]
+                    )
+                )
+
             return "hello"
 
         raise PreventUpdate
