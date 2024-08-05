@@ -31,7 +31,7 @@ keyword_input = dbc.Col(
     [
         html.Div([html.H5("Upload a document (PDF, DOCX, etc.)")], className="mb-4"),
         dcc.Upload(
-            id="upload-image",
+            id="upload-document",
             children=html.Div(["Drag and Drop or ", html.A("Select a file")]),
             style={
                 "width": "100%",
@@ -46,6 +46,10 @@ keyword_input = dbc.Col(
             # Allow multiple files to be uploaded
             multiple=True,
         ),
+        html.Span(
+            id="uploaded-filename", children="File has been successfully uploaded!"
+        ),
+        html.Br(),
         html.Br(),
         dbc.Label(
             "Select an source language",
@@ -53,7 +57,7 @@ keyword_input = dbc.Col(
         ),
         dcc.Dropdown(
             ["Detect automatically"] + Constants.LANGUAGES,
-            id="sources-llms",
+            id="sources-language",
             className="mt-1",
         ),
         html.Br(),
@@ -61,7 +65,7 @@ keyword_input = dbc.Col(
             "Select a target language",
             className="mb-2",
         ),
-        dcc.Dropdown(Constants.LANGUAGES, id="sources-llms", className="mt-1"),
+        dcc.Dropdown(Constants.LANGUAGES, id="target-language", className="mt-1"),
         html.Br(),
         submit_clear_buttons,
     ]

@@ -2,6 +2,7 @@ import dash
 import dash_bootstrap_components as dbc
 from flask import Flask
 
+import callbacks.translator.callbacks
 import pages.nav.main_nav as main_nav
 
 server = Flask(__name__, static_folder="static")
@@ -30,7 +31,7 @@ app.layout = lambda: dbc.Container(
     fluid=True,
 )
 
-# callbacks.translator.callbacks.init_callback(app)
+callbacks.translator.callbacks.init_callback(app)
 
 if __name__ == "__main__":
     app.run_server(host="0.0.0.0", port="8050", debug=True)
