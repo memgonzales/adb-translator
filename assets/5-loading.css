@@ -1,3 +1,4 @@
 .dash-default-spinner > div {
+    margin-top: 20px;
     background-color: var(--blue-top) !important;
 }

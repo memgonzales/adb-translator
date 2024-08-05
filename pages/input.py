@@ -53,7 +53,7 @@ keyword_input = dbc.Col(
         html.Br(id="break-1", style={"display": "none"}),
         html.Span(
             id="uploaded-successfully",
-            children="Successfully uploaded ",
+            children="✔️ Successfully uploaded ",
             style={"display": "none"},
         ),
         html.Span(id="uploaded-filename", style={"display": "none"}),
