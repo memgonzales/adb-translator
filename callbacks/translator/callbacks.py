@@ -19,14 +19,15 @@ def init_callback(app):
     )
     def upload_file(filename, contents):
         if filename and contents:
-            save_file(filename, contents)
+            hashed_filename = hash_filename_with_timestamp(filename)
+            save_file(hashed_filename, contents)
             return (
                 filename,
-                hash_filename_with_timestamp(filename),
+                hashed_filename,
                 {"display": "block"},
                 {"display": "inline-block"},
                 # {"display": "inline-block"},
-                {"display": "inline-block"},
+                {"display": "inline-block", "whiteSpace": "pre"},
                 {"display": "block"},
             )
 

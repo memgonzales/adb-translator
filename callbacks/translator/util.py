@@ -60,14 +60,16 @@ blob_service_client = BlobServiceClient(
 )
 
 
+def get_file_extension(filename):
+    return filename.split(".")[-1]
+
+
 def append_timestamp_to_filename(filename):
     return f"{filename}.{time.time_ns() // 1000}"
 
 
 def hash_filename_with_timestamp(filename):
-    return hashlib.sha256(
-        append_timestamp_to_filename(filename).encode("utf-8")
-    ).hexdigest()
+    return f"{hashlib.sha256(append_timestamp_to_filename(filename).encode("utf-8")).hexdigest()}.{get_file_extension(filename)}"
 
 
 def save_file(name, content):
