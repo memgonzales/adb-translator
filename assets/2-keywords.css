@@ -6,15 +6,17 @@
     width: 100%;
 }
 
-#keyword-submit {
+#translate-submit {
     background-color: var(--blue-top);
     border-color: var(--blue-top);
 }
 
-#keyword-reset, #keyword-clear-cache {
+#keyword-reset,
+#keyword-clear-cache {
     background-color: white;
 }
 
-#keyword-reset:hover, #keyword-clear-cache:hover {
+#keyword-reset:hover,
+#keyword-clear-cache:hover {
     background-color: var(--button-red);
 }

@@ -11,8 +11,8 @@ submit_clear_buttons = dbc.Row(
     [
         dbc.Col(
             dbc.Button(
-                "Start Translation",
-                id="keyword-submit",
+                "Translate Document",
+                id="translate-submit",
                 n_clicks=0,
                 className="keyword-button",
             ),
@@ -46,9 +46,8 @@ keyword_input = dbc.Col(
             # Allow multiple files to be uploaded
             multiple=True,
         ),
-        html.Span(
-            id="uploaded-filename", children="File has been successfully uploaded!"
-        ),
+        html.Span(id="uploaded-filename"),
+        html.Span(" has been successfully uploaded!"),
         html.Br(),
         html.Br(),
         dbc.Label(
@@ -56,16 +55,23 @@ keyword_input = dbc.Col(
             className="mb-2",
         ),
         dcc.Dropdown(
-            ["Detect automatically"] + Constants.LANGUAGES,
-            id="sources-language",
+            ["Detect automatically"] + list(Constants.LANGUAGES.keys()),
+            id="source-language",
             className="mt-1",
+            value="Detect automatically",
         ),
         html.Br(),
         dbc.Label(
             "Select a target language",
             className="mb-2",
         ),
-        dcc.Dropdown(Constants.LANGUAGES, id="target-language", className="mt-1"),
+        dcc.Dropdown(
+            list(Constants.LANGUAGES.keys()),
+            id="target-language",
+            className="mt-1",
+            value=["English"],
+            multi=True,
+        ),
         html.Br(),
         submit_clear_buttons,
     ]
@@ -78,7 +84,7 @@ layout = html.Div(
         ),
         html.Br(),
         html.Div(
-            id="keyword-results-container",
+            id="translate-results-container",
             children=[
                 html.Div(
                     id="modules-container",

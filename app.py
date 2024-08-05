@@ -1,9 +1,10 @@
 import dash
 import dash_bootstrap_components as dbc
-from flask import Flask
+from flask import Flask, send_from_directory
 
 import callbacks.translator.callbacks
 import pages.nav.main_nav as main_nav
+from callbacks.constants import Constants
 
 server = Flask(__name__, static_folder="static")
 app = dash.Dash(
@@ -30,6 +31,13 @@ app.layout = lambda: dbc.Container(
     ],
     fluid=True,
 )
+
+
+@server.route("/download/<path:path>")
+def download(path):
+    """Serve a file from the upload directory."""
+    return send_from_directory(Constants.UPLOAD_DIR, path, as_attachment=True)
+
 
 callbacks.translator.callbacks.init_callback(app)
 
