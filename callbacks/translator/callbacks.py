@@ -71,6 +71,20 @@ def init_callback(app):
                     )
                 )
 
-            return "hello"
+            html_translated_documents = []
+            for translated_document, target_language in zip(
+                translated_documents, target_languages
+            ):
+                item = html.Li(
+                    html.A(
+                        target_language, href=f"{get_link_to_file(translated_document)}"
+                    )
+                )
+                html_translated_documents.append(item)
+
+            return [
+                html.H5("Translated documents:"),
+                html.Ul(html_translated_documents, className="mt-3"),
+            ]
 
         raise PreventUpdate
