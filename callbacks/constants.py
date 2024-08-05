@@ -1,6 +1,6 @@
 class Constants(object):
     PAGE_LABELS = {"translator": "translator"}
-    UPLOAD_DIR = "static/upload"
+    DOCS_DIR = "static/docs"
 
     LANGUAGES = {
         "English": "en",

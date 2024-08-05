@@ -36,7 +36,7 @@ app.layout = lambda: dbc.Container(
 @server.route("/download/<path:path>")
 def download(path):
     """Serve a file from the upload directory."""
-    return send_from_directory(Constants.UPLOAD_DIR, path, as_attachment=True)
+    return send_from_directory(Constants.DOCS_DIR, path, as_attachment=True)
 
 
 callbacks.translator.callbacks.init_callback(app)

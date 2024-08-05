@@ -1,8 +1,13 @@
-from dash import Input, Output, State
+from dash import Input, Output, State, html
 from dash.exceptions import PreventUpdate
 
 from ..constants import Constants
-from ..translator.util import hash_filename_with_timestamp, save_file, translate
+from ..translator.util import (
+    append_timestamp_to_filename,
+    get_link_to_file,
+    save_file,
+    translate,
+)
 
 
 def init_callback(app):
@@ -19,11 +24,15 @@ def init_callback(app):
     )
     def upload_file(filename, contents):
         if filename and contents:
-            hashed_filename = hash_filename_with_timestamp(filename)
-            save_file(hashed_filename, contents)
+            filename_with_timestamp = append_timestamp_to_filename(filename)
+            save_file(filename_with_timestamp, contents)
             return (
-                filename,
-                hashed_filename,
+                html.A(
+                    filename,
+                    href=get_link_to_file(filename_with_timestamp),
+                    download="hi",
+                ),
+                filename_with_timestamp,
                 {"display": "block"},
                 {"display": "inline-block"},
                 # {"display": "inline-block"},

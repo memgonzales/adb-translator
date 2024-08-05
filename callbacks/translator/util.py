@@ -63,9 +63,11 @@ blob_service_client = BlobServiceClient(
 def get_file_extension(filename):
     return filename.split(".")[-1]
 
+def remove_file_extension(filename):
+    return '.'.join(filename.split(".")[:-1])
 
 def append_timestamp_to_filename(filename):
-    return f"{filename}.{time.time_ns() // 1000}"
+    return f"{remove_file_extension(filename)}-{time.time_ns() // 1000}.{get_file_extension(filename)}"
 
 
 def hash_filename_with_timestamp(filename):
@@ -75,10 +77,10 @@ def hash_filename_with_timestamp(filename):
 def save_file(name, content):
     data = content.encode("utf8").split(b";base64,")[1]
 
-    if not os.path.exists(Constants.UPLOAD_DIR):
-        os.makedirs(Constants.UPLOAD_DIR)
+    if not os.path.exists(Constants.DOCS_DIR):
+        os.makedirs(Constants.DOCS_DIR)
 
-    with open(f"{Constants.UPLOAD_DIR}/{name}", "wb") as f:
+    with open(f"{Constants.DOCS_DIR}/{name}", "wb") as f:
         f.write(base64.decodebytes(data))
 
 
@@ -128,11 +130,14 @@ def translate(filename, source_language, target_language):
                 credential=config["AZURE_STORAGE_ACCOUNT_KEY"],
             )
             with open(
-                f"{Constants.UPLOAD_DIR}/{filename}_{target_language}", "wb"
+                f"{Constants.DOCS_DIR}/{filename}_{target_language}", "wb"
             ) as f:
                 f.write(blob_client.download_blob().readall())
 
             print("Done!")
             break
 
-    return f"{Constants.UPLOAD_DIR}/{filename}_{target_language}"
+    return f"{Constants.DOCS_DIR}/{filename}_{target_language}"
+
+def get_link_to_file(filename):
+    return f"/download/{filename}"
