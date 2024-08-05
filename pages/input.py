@@ -51,13 +51,17 @@ keyword_input = dbc.Col(
             "Select an source language",
             className="mb-2",
         ),
-        dcc.Dropdown(Constants.LLMs, id="sources-llms", className="mt-1"),
+        dcc.Dropdown(
+            ["Detect automatically"] + Constants.LANGUAGES,
+            id="sources-llms",
+            className="mt-1",
+        ),
         html.Br(),
         dbc.Label(
             "Select a target language",
             className="mb-2",
         ),
-        dcc.Dropdown(Constants.LLMs, id="sources-llms", className="mt-1"),
+        dcc.Dropdown(Constants.LANGUAGES, id="sources-llms", className="mt-1"),
         html.Br(),
         submit_clear_buttons,
     ]
