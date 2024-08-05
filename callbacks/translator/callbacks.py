@@ -67,7 +67,9 @@ def init_callback(app):
             for target_language in target_languages:
                 translated_documents.append(
                     translate(
-                        filename, source_language, Constants.LANGUAGES[target_language]
+                        filename,
+                        Constants.LANGUAGES[source_language],
+                        Constants.LANGUAGES[target_language],
                     )
                 )
 

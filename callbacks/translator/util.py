@@ -102,7 +102,7 @@ def generate_sas_url(container, permissions):
         container_name=container.container_name,
         account_key=config["AZURE_STORAGE_ACCOUNT_KEY"],
         permission=permissions,
-        expiry=datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=1),
+        expiry=datetime.datetime.now() + datetime.timedelta(hours=1),
     )
 
     container_sas_url = (
@@ -137,9 +137,6 @@ def translate(filename, source_language, target_language):
 
         source_container_sas_url = generate_sas_url(source_container, permissions="rl")
         target_container_sas_url = generate_sas_url(target_container, permissions="wl")
-
-        if source_language == "Detect automatically":
-            source_language = None
 
         poller = translation_client.begin_translation(
             source_container_sas_url,

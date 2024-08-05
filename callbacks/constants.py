@@ -3,6 +3,7 @@ class Constants(object):
     DOCS_DIR = "static/docs"
 
     LANGUAGES = {
+        "Detect automatically": None,
         "English": "en",
         "Tagalog": "fil",
         "Chinese": "zh",
