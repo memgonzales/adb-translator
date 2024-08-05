@@ -39,7 +39,7 @@ keyword_input = dbc.Col(
         ),
         dcc.Upload(
             id="upload-document",
-            children=html.Div(["Drag and Drop or ", html.A("Select a file")]),
+            children=html.Div(["Choose a file or drag it here"]),
             style={
                 "width": "100%",
                 "height": "60px",
