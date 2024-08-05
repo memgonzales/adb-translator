@@ -1,5 +1,5 @@
 class Constants(object):
-    PAGE_LABELS = {"knowledge_graph": "knowledge_graph"}
+    PAGE_LABELS = {"translator": "translator"}
 
     LLMs = [
         {"label": "Llama 3", "value": "llama3-8K-0"},

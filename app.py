@@ -2,7 +2,6 @@ import dash
 import dash_bootstrap_components as dbc
 from flask import Flask
 
-import callbacks.knowledge_graph.callbacks
 import pages.nav.main_nav as main_nav
 
 server = Flask(__name__, static_folder="static")
@@ -15,7 +14,7 @@ app = dash.Dash(
         dbc.icons.FONT_AWESOME,
     ],
     server=server,
-    title="Knowledge Graph",
+    title="ADB Translator",
     update_title="Loading...",
     meta_tags=[
         {"name": "viewport", "content": "width=1024"}
@@ -31,7 +30,7 @@ app.layout = lambda: dbc.Container(
     fluid=True,
 )
 
-callbacks.knowledge_graph.callbacks.init_callback(app)
+# callbacks.translator.callbacks.init_callback(app)
 
 if __name__ == "__main__":
-    app.run_server(host="0.0.0.0", port="8050", debug=False)
+    app.run_server(host="0.0.0.0", port="8050", debug=True)

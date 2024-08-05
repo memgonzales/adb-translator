@@ -2,14 +2,12 @@ from collections import OrderedDict
 
 from dash import html
 
-import pages.modules.knowledge_graph as knowledge_graph
+import pages.modules.translator as translator
 from callbacks.constants import Constants
 
 
 def get_modules_layout_dictionary():
-    return OrderedDict(
-        {Constants.PAGE_LABELS["knowledge_graph"]: "Generate Knowledge Graph"}
-    )
+    return OrderedDict({Constants.PAGE_LABELS["translator"]: "Generate ADB Translator"})
 
 
-layout = html.Div(children=[knowledge_graph.layout], className="px-0")
+layout = html.Div(children=[translator.layout], className="px-0")

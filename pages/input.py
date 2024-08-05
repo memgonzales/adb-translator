@@ -5,47 +5,14 @@ from dash import dcc, html
 import pages.modules_layout as modules_layout
 from callbacks.constants import Constants
 
-dash.register_page(__name__, path="/", name="Knowledge Graph")
+dash.register_page(__name__, path="/", name="ADB Translator")
 
 submit_clear_buttons = dbc.Row(
     [
         dbc.Col(
             dbc.Button(
-                "Generate Knowledge Graph",
+                "Start Translation",
                 id="keyword-submit",
-                n_clicks=0,
-                className="keyword-button",
-            ),
-            xs=4,
-            sm=4,
-            md=2,
-            lg=2,
-            xl=2,
-            xxl=2,
-        ),
-        dbc.Col(
-            dbc.Button(
-                "Reset All Analyses",
-                color="danger",
-                outline=True,
-                id="keyword-reset",
-                n_clicks=0,
-                className="keyword-button",
-            ),
-            xs=4,
-            sm=4,
-            md=2,
-            lg=2,
-            xl=2,
-            xxl=2,
-            id="reset-analyses-container",
-        ),
-        dbc.Col(
-            dbc.Button(
-                "Clear Cache",
-                id="keyword-clear-cache",
-                color="danger",
-                outline=True,
                 n_clicks=0,
                 className="keyword-button",
             ),
@@ -62,10 +29,10 @@ submit_clear_buttons = dbc.Row(
 
 keyword_input = dbc.Col(
     [
-        html.Div([html.H5("Upload some documents")], className="mb-4"),
+        html.Div([html.H5("Upload a document (PDF, DOCX, etc.)")], className="mb-4"),
         dcc.Upload(
             id="upload-image",
-            children=html.Div(["Drag and Drop or ", html.A("Select Files")]),
+            children=html.Div(["Drag and Drop or ", html.A("Select a file")]),
             style={
                 "width": "100%",
                 "height": "60px",
@@ -81,7 +48,13 @@ keyword_input = dbc.Col(
         ),
         html.Br(),
         dbc.Label(
-            "Select an LLM",
+            "Select an source language",
+            className="mb-2",
+        ),
+        dcc.Dropdown(Constants.LLMs, id="sources-llms", className="mt-1"),
+        html.Br(),
+        dbc.Label(
+            "Select a target language",
             className="mb-2",
         ),
         dcc.Dropdown(Constants.LLMs, id="sources-llms", className="mt-1"),

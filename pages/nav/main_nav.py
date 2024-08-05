@@ -17,7 +17,7 @@ def navbar():
                         ),
                         className="d-flex align-items-center",
                     ),
-                    dbc.Col(dbc.NavbarBrand("Knowledge Graph", className="ms-3")),
+                    dbc.Col(dbc.NavbarBrand("ADB Translator", className="ms-3")),
                 ],
                 align="center",
                 className="g-0",
