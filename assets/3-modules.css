@@ -1,0 +1,19 @@
+#modules-hdr {
+    margin-bottom: 1em;
+}
+
+.module-intro {
+    background-color: var(--gray);
+    border-radius: 10px;
+}
+
+.module-intro p:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.module-button {
+    width: 11em;
+    background-color: var(--blue-top);
+    border-color: var(--blue-top);
+}

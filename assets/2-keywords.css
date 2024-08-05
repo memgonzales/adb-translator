@@ -1,0 +1,20 @@
+#keyword-input-container {
+    background-color: var(--gray);
+}
+
+.keyword-button {
+    width: 100%;
+}
+
+#keyword-submit {
+    background-color: var(--blue-top);
+    border-color: var(--blue-top);
+}
+
+#keyword-reset, #keyword-clear-cache {
+    background-color: white;
+}
+
+#keyword-reset:hover, #keyword-clear-cache:hover {
+    background-color: var(--button-red);
+}

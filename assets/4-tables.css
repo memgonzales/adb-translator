@@ -1,0 +1,42 @@
+table tr td {
+    vertical-align: top;
+}
+
+table tr td p, table tr td div p {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    display: inline;
+}
+
+table tr td div {
+    text-align: right !important;
+}
+
+th:not(.dash-filter) {
+    font-weight: bold !important;
+    background-color: var(--gray) !important;
+}
+
+tr:nth-of-type(odd) td {
+    background-color: var(--gray) !important;    
+}
+
+th, td {
+    padding: 0.5em !important;
+    font-family: sans-serif;
+}
+
+.page-number, .current-page {
+    font-family: var(--bs-body-font-family) !important;
+    font-size: var(--font-size-base) !important;
+}
+
+.table-button {
+    border: 1px solid var(--gray);
+    background-color: transparent;
+}
+
+.table-button:hover {
+    border: 1px solid var(--gray);
+    background-color: var(--gray);
+}

@@ -1,0 +1,24 @@
+:root {
+    --blue-top: #002069;
+    --gray: #f0f0f0;
+    --button-red: #dc3545;
+    --green-lightest: #4aa59f;
+}
+
+.nav-link {
+    color: var(--bs-body-color) !important;
+    cursor: pointer;
+}
+
+.nav-pills .nav-link.active {
+    color: white !important;
+    background-color: var(--green-lightest);
+}
+
+#page {
+    margin-left: 3em;
+}
+
+input[type='text'] {
+    text-align: left !important;
+}

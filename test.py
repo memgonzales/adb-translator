@@ -1,6 +1,6 @@
 from dotenv import dotenv_values
 
-DOCUMENT = "test-translator.pdf"
+DOCUMENT = "adb-chinese-doc.pdf"
 TARGET_LANGUAGE = "en"
 
 import datetime
